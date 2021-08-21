@@ -15,10 +15,12 @@ func main() {
 	fmt.Println("Server starting...")
 
 	rh := handlers.Root()
+	ph := handlers.Products()
 
 	serverMux := http.NewServeMux()
 
 	serverMux.Handle("/", rh)
+	serverMux.Handle("/products", ph)
 
 	server := &http.Server{
 		Handler:      serverMux,
