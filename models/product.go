@@ -42,3 +42,22 @@ func (p *TProducts) ToJSON(w io.Writer) error {
 	encoder := json.NewEncoder(w)
 	return encoder.Encode(p)
 }
+
+func (p *Product) ToJSON(w io.Writer) error {
+	encoder := json.NewEncoder(w)
+	return encoder.Encode(p)
+}
+
+func (p *Product) FromJSON(r io.Reader) error {
+	encoder := json.NewDecoder(r)
+	return encoder.Decode(p)
+}
+
+func (p *Product) GetNextID() int {
+	lastID := DummyProducts[len(DummyProducts)-1].ID
+	return lastID + 1
+}
+
+func (p *Product) AddProduct() {
+	DummyProducts = append(DummyProducts, p)
+}
