@@ -9,18 +9,22 @@ import (
 	"os"
 	"os/signal"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
 	fmt.Println("Server starting...")
 
-	rh := handlers.Root()
 	ph := handlers.Products()
 
-	serverMux := http.NewServeMux()
+	serverMux := mux.NewRouter()
 
-	serverMux.Handle("/", rh)
-	serverMux.Handle("/products", ph)
+	getRouter := serverMux.Methods("GET").Subrouter()
+	postRouter := serverMux.Methods("POST").Subrouter()
+
+	getRouter.HandleFunc("/products", ph.GetProducts)
+	postRouter.HandleFunc("/products", ph.AddProduct)
 
 	server := &http.Server{
 		Handler:      serverMux,

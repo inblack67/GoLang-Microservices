@@ -12,21 +12,7 @@ func Products() *HProducts {
 	return &HProducts{}
 }
 
-func (hp *HProducts) ServeHTTP(rw http.ResponseWriter, r *http.Request) {
-	if r.Method == http.MethodGet {
-		hp.getProducts(rw, r)
-		return
-	}
-
-	if r.Method == http.MethodPost {
-		hp.addProduct(rw, r)
-		return
-	}
-
-	rw.WriteHeader(http.StatusMethodNotAllowed)
-}
-
-func (p *HProducts) getProducts(rw http.ResponseWriter, r *http.Request) {
+func (p *HProducts) GetProducts(rw http.ResponseWriter, r *http.Request) {
 	productsList := models.GetProducts()
 	// jsonData, err := json.Marshal(productsList) // consumes memory
 
@@ -39,7 +25,7 @@ func (p *HProducts) getProducts(rw http.ResponseWriter, r *http.Request) {
 	// rw.Write(jsonData)
 }
 
-func (p *HProducts) addProduct(rw http.ResponseWriter, r *http.Request) {
+func (p *HProducts) AddProduct(rw http.ResponseWriter, r *http.Request) {
 	newProduct := &models.Product{}
 	err := newProduct.FromJSON(r.Body)
 	if err != nil {
